@@ -3,3 +3,7 @@ nav ul li {
   list-style-type: none;
   margin-right: 25px;
 }
+
+article img {
+  width: 140px;
+}

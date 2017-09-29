@@ -1,5 +1,6 @@
 /* GLOBAL VARIABLES UP HERE */
 var frontPage = 'https://www.reddit.com/';
+var DEFAULT_THUMBNAIL = 'https://vignette.wikia.nocookie.net/questworld/images/4/47/Comic_image_missing.png/revision/latest?cb=20100421133705';
 
 $(document).ready(function(){
 /* FUNCTION EXECUTION HERE */
@@ -43,9 +44,13 @@ function displayArticles(data) {
 
 function displayAnArticle(article) {
   $('.hot-new-rising-body').append(`<article id="${article.id}">
-<img src="${article.thumbnail}"/>
+<img src="${fixImageUrl(article.thumbnail)}"/>
 <a href="${article.url}">${article.title}</a>
   </article>`)
+}
+
+function fixImageUrl(url) {
+  return ['self', 'image', 'default'].includes(url) ? DEFAULT_THUMBNAIL : url;
 }
 
 /* FUNCTION DEFINITION HERE */
