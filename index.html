@@ -11,25 +11,23 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-md-4">
+      <div class="heading">
         <h1>Ajaxify Reddit</h1>
       </div>
-      <nav class="col-md-8">
-        <form class="subreddit-search">
-          <input type="text" placeholder="subreddit name" />
-          <button type="submit" class="btn btn-primary">Search</button>
-        </form>
+      <nav class="articles-nav">
+        <a href="https://www.reddit.com/hot/">hot</a>
+        <a href="https://www.reddit.com/new/">new</a>
+        <a href="https://www.reddit.com/rising/">rising</a>
+        <a href="https://www.reddit.com/controversial/">controversial</a>
+        <a href="https://www.reddit.com/top/">top</a>
       </nav>
+      <form class="subreddit-search">
+        <input type="text" placeholder="subreddit name" />
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
     </div>
     <div id="main">
       <div class="articles-container">
-        <div class="articles-nav">
-          <a href="https://www.reddit.com/hot/">hot</a>
-          <a href="https://www.reddit.com/new/">new</a>
-          <a href="https://www.reddit.com/rising/">rising</a>
-          <a href="https://www.reddit.com/controversial/">controversial</a>
-          <a href="https://www.reddit.com/top/">top</a>
-        </div>
         <div class="articles-body">
         </div>
         <button type="button" class="btn btn-primary">Load more</button>

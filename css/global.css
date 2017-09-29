@@ -1,7 +1,39 @@
-nav ul li {
+.articles-nav {
   display: inline-block;
   list-style-type: none;
   margin-right: 25px;
+  font-size: 20px;
+}
+
+.articles-nav a {
+  padding-left: 20px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #cde3f6;
+}
+
+.subreddit-search {
+  margin-top: 20px;
+}
+
+.articles-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+article {
+  width: 80%;
+  margin: 10px;
+}
+
+article:hover {
+  background-color: #cde3f6;
 }
 
 article img {
