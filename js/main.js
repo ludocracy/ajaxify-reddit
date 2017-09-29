@@ -15,10 +15,9 @@ $(document).ready(function(){
 // ajax call
 
 function getArticles(options = {}) {
-  console.log(`${frontPage}${options.page || ''}/.json${serialize(options.params)}`)
   $.ajax({
     method: 'GET',
-    url: `${frontPage}${options.page || ''}/.json${serialize(options.params)}`,
+    url: getRedditURL(options),
     dataType: 'json',
     success: onSuccess,
     error: onError
@@ -65,13 +64,16 @@ function displayArticles(data) {
 
 function displayAnArticle(article) {
   $('.articles-body').append(`<article id="t3_${article.id}">
-<img src="${fixImageUrl(article.thumbnail)}"/>
-<a href="${article.url}">${article.title}</a>
+
+<a href="${article.url}"><img src="${fixImageUrl(article.thumbnail)}"/>${article.title}</a>
   </article>`)
 }
 
 // helpers
 
+function getRedditURL(options = {}) {
+  return `${frontPage}${options.page || ''}/.json${serialize(options.params)}`;
+}
 function fixImageUrl(url) {
   return ['self', 'image', 'default'].includes(url) ? DEFAULT_THUMBNAIL : url;
 }
