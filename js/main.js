@@ -6,10 +6,16 @@ $(document).ready(function(){
 /* FUNCTION EXECUTION HERE */
   // attach event listeners to nav links
   $('.hot-new-rising-nav').click(navToArticles);
+  $('form').submit(findSubreddit);
 
   // ajax call
   getArticles();
 });
+
+function findSubreddit(e) {
+  e.preventDefault();
+  getArticles(`r/${$('form input').val()}`);
+}
 
 function navToArticles(e) {
   let target = e.target;
@@ -18,6 +24,7 @@ function navToArticles(e) {
 }
 
 function getArticles(page = '') {
+  console.log(`${frontPage}${page}/.json`);
   $.ajax({
     method: 'GET',
     url: `${frontPage}${page}/.json`,
