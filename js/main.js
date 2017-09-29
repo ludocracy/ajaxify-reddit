@@ -1,37 +1,48 @@
 /* GLOBAL VARIABLES UP HERE */
 var frontPage = 'https://www.reddit.com/';
 var DEFAULT_THUMBNAIL = 'https://vignette.wikia.nocookie.net/questworld/images/4/47/Comic_image_missing.png/revision/latest?cb=20100421133705';
+var currentPage = '';
 
 $(document).ready(function(){
-/* FUNCTION EXECUTION HERE */
-  // attach event listeners to nav links
-  $('.hot-new-rising-nav').click(navToArticles);
+  $('.articles-nav').click(navToArticles);
   $('form').submit(findSubreddit);
+  $('.articles-container button').click(loadMoreArticles);
 
-  // ajax call
   getArticles();
 });
 
+
+// ajax call
+
+function getArticles(options = {}) {
+  console.log(`${frontPage}${options.page || ''}/.json${serialize(options.params)}`)
+  $.ajax({
+    method: 'GET',
+    url: `${frontPage}${options.page || ''}/.json${serialize(options.params)}`,
+    dataType: 'json',
+    success: onSuccess,
+    error: onError
+  })
+  currentPage = options.page || '';
+}
+
+
+// callbacks
+
+function loadMoreArticles() {
+  let lastID = $('article').last().attr('id');
+  getArticles({page: currentPage, params: {count: 25, after: lastID}})
+}
+
 function findSubreddit(e) {
   e.preventDefault();
-  getArticles(`r/${$('form input').val()}`);
+  getArticles({page: `r/${$('form input').val()}`});
 }
 
 function navToArticles(e) {
   let target = e.target;
   e.preventDefault();
-  getArticles(target.innerText);
-}
-
-function getArticles(page = '') {
-  console.log(`${frontPage}${page}/.json`);
-  $.ajax({
-    method: 'GET',
-    url: `${frontPage}${page}/.json`,
-    dataType: 'json',
-    success: onSuccess,
-    error: onError
-  })
+  getArticles({page: target.innerText});
 }
 
 function onSuccess(response) {
@@ -42,23 +53,34 @@ function onError(xhr) {
   console.log(xhr);
 }
 
+
+// DOM manipulators
+
 function displayArticles(data) {
-  $('.hot-new-rising-body').empty();
+  $('.articles-body').empty();
   data.children.forEach(article => {
     displayAnArticle(article.data);
   });
 }
 
 function displayAnArticle(article) {
-  $('.hot-new-rising-body').append(`<article id="${article.id}">
+  $('.articles-body').append(`<article id="t3_${article.id}">
 <img src="${fixImageUrl(article.thumbnail)}"/>
 <a href="${article.url}">${article.title}</a>
   </article>`)
 }
 
+// helpers
+
 function fixImageUrl(url) {
   return ['self', 'image', 'default'].includes(url) ? DEFAULT_THUMBNAIL : url;
 }
 
-/* FUNCTION DEFINITION HERE */
-/* TIP: don't forget scope! */
+function serialize(obj) {
+  if(obj === {}) { return ''; }
+  let s = '?';
+  for(let k in obj) {
+    s += `${k}=${obj[k]}&`
+  }
+  return s.slice(0,-1);
+}
